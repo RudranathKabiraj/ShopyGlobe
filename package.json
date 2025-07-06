@@ -1,11 +1,13 @@
 {
+  "name": "shoppy-globe",
+  "version": "1.0.0",
+  "homepage": "https://rudranathkabiraj.github.io/Shoppy_Globe/",
   "scripts": {
-    "homepage": "https://rudranathkabiraj.github.io/Shoppy_Globe/",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && copy dist\\index.html dist\\404.html",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
