@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "homepage": "https://rudranathkabiraj.github.io/Shoppy_Globe",
+    "homepage": "https://rudranathkabiraj.github.io/Shoppy_Globe/",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
