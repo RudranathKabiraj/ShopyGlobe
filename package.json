@@ -1,7 +1,7 @@
 {
   "name": "shoppy-globe",
   "version": "1.0.0",
-  "homepage": "https://rudranathkabiraj.github.io/Shoppy_Globe/",
+"homepage": "https://rudranathkabiraj.github.io/ShopyGlobe/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
