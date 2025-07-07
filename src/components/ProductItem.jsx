@@ -6,13 +6,15 @@ import PropTypes from 'prop-types';
 
 // Format USD to INR
 const formatPrice = (priceInUSD) => {
-  const priceInINR = priceInUSD * 83;
+  const priceInINR = parseFloat((priceInUSD * 83).toFixed(2));
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
     currency: 'INR',
-    maximumFractionDigits: 0,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(priceInINR);
 };
+
 
 export default function ProductItem({ product }) {
   const dispatch = useDispatch();

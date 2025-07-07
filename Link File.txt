@@ -1,0 +1,2 @@
+GitHub Page  link = https://github.com/RudranathKabiraj/Shoppy_Globe
+Project Link = https://rudranathkabiraj.github.io/Shoppy_Globe/

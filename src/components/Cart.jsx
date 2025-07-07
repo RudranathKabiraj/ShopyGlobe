@@ -11,14 +11,16 @@ export default function Cart() {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   // convert price from USD to INR and format it
-  const formatPrice = (priceInUSD) => {
-    const priceInINR = priceInUSD * 83;
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      maximumFractionDigits: 0,
-    }).format(priceInINR);
-  };
+const formatPrice = (priceInUSD) => {
+  const priceInINR = parseFloat((priceInUSD * 83).toFixed(2));
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(priceInINR);
+};
+
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
