@@ -3,16 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cartSlice';
 
-// ✅ Format USD to INR with 2 decimal places
-const formatPrice = (priceInUSD) => {
-  const priceInINR = parseFloat((priceInUSD * 83).toFixed(2));
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(priceInINR);
-};
+//  Importing reusable price formatter
+import { formatPrice } from '../utils/priceFormatter';
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -24,7 +16,7 @@ export default function ProductDetail() {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await fetch(`https://dummyjson.com/products/${id}`);
+        const res = await fetch(`http://localhost:5000/api/products/${id}`);
         if (!res.ok) throw new Error('Failed to fetch product');
         const data = await res.json();
         setProduct(data);
@@ -35,9 +27,28 @@ export default function ProductDetail() {
     fetchProduct();
   }, [id]);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    if (!product || product.stock === 0) return;
+
     dispatch(addToCart(product));
     setAdded(true);
+
+    // 🟡 Decrement stock visually
+    setProduct((prev) => ({
+      ...prev,
+      stock: prev.stock - 1,
+    }));
+
+    // 🟢 Update backend stock
+    try {
+      await fetch(`http://localhost:5000/api/products/${product._id}/decrement`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+      });
+    } catch (err) {
+      console.error('Failed to update stock in backend:', err.message);
+    }
+
     setTimeout(() => setAdded(false), 1500);
   };
 
@@ -51,21 +62,31 @@ export default function ProductDetail() {
       <img
         src={product.thumbnail}
         alt={product.title}
-        className="w-full h-80 object-cover rounded mb-4"
+        className="w-full max-h-[500px] object-contain rounded mb-4"
+
       />
 
       <p className="text-gray-600 mb-2">{product.description}</p>
+
+      {/* Price formatted properly using utility */}
       <p className="text-xl font-semibold text-green-700">
         {formatPrice(product.price)}
       </p>
+
       <p className="text-sm text-gray-500 mt-2">Brand: {product.brand}</p>
       <p className="text-sm text-gray-500">Category: {product.category}</p>
+      <p className={`text-sm mt-2 font-medium ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+        {product.stock > 0 ? `In Stock: ${product.stock}` : 'Out of Stock'}
+      </p>
 
       <button
         onClick={handleAddToCart}
-        className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
+        disabled={product.stock === 0}
+        className={`mt-6 w-full ${
+          product.stock === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+        } text-white font-semibold py-2 px-4 rounded-lg transition`}
       >
-        Add to Cart
+        {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
       </button>
 
       {added && (
