@@ -1,7 +1,11 @@
 {
   "name": "shoppy-globe",
   "version": "1.0.0",
+<<<<<<< HEAD
   "homepage": "https://rudranathkabiraj.github.io/ShopyGlobe/",
+=======
+  "homepage": "https://github.com/RudranathKabiraj/Shoppy_Globe_Backend.git",
+>>>>>>> 8ee7ee36f8a686811b5f7160c7a2a60279f95f12
   "scripts": {
     "dev": "vite",
     "build": "vite build",
