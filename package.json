@@ -12,6 +12,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.10.0",
     "bcryptjs": "^3.0.2",
